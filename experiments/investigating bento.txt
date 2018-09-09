@@ -1,0 +1,33 @@
+After long search in inet for information about bento i found oo file bento.c [LWP]. As result - Lotus Word Pro
+uses bento format. Heh. Some codebase. Another source of information is Bento Specification 1.0d5 [BS].
+And 2 patents. So, quest is go on.
+
+1. Implementing base trivial functions.
+
+Messages Operations (cmerrors)
+
+All message constants was found in BS. Only problem is starting of constants from digits. Really this is
+incorrect. After small thinking all messages was pefixed by CMERR_*. Same thing with basic types. In some
+places CM_* prefix are used, no in another. As result I used CM_* in all types. Most probably it is ok.
+
+Error message system is close to OS/2 system.
+
+2. Try to open file (yes, lwp is bento container!)
+
+First of all i need to determine  Magic Header to find entry point. [BS] not says nothing about real value.
+But [LWP] is here. As result - Magic Header is 
+
+
+0xA4 0x43 0x4D 0xA5 0x48 0x64 0x72
+
+
+Search of newer filter source code gives us real constant ))
+
+http://opengrok.libreoffice.org/xref/core/lotuswordpro/source/filter/bento.hxx
+
+#define BEN_MAGIC_BYTES "\xA4""CM""\xA5""Hdr""\xD7"
+
+Also some code base become )
+
+Ok. According to OO LWP filter magic header always at the end. Accprding to [BS] - header can be anywhere.
+So, lets try to open container...

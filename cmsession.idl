@@ -1,0 +1,41 @@
+// Сессия Bento
+
+interface CMSession
+{
+  // Данные пользователя
+  attribute CMRefCon UserData;
+  attribute MallocProto Malloc;
+  attribute FreeProto Free;
+  attribute ErrorProto Error;
+  attribute CMMetaHandler MetaHandler;
+  
+  CMSession APIENTRY CMStartSession(CMMetaHandler metaHandler,
+                                  CMRefCon      sessionRefCon)
+
+  void APIENTRY CMEndSession(CMSession session,
+                           CMBoolean closeOpenContainers)
+
+  void APIENTRY CMAbortSession(CMSession session)
+
+  CMHandlerAddr APIENTRY CMSetMetaHandler(const CMSession session,
+                                        const CMGlobalName typeName,
+                                              CMMetaHandler metaHandler)
+
+  CMHandlerAddr APIENTRY CMGetMetaHandler(const CMSession session,
+                                         const CMGlobalName typeName)
+
+										 
+  CMContainer CMOpenContainer(CMSession session,
+  CMRefCon attributes,
+  const CMGlobalName typeName,
+  CMContainerUseMode useFlags);
+
+  CMContainer CMOpenNewContainer(CMSession session,
+  CMRefCon attributes,
+  const CMGlobalName typeName,
+  CMContainerUseMode useFlags,
+  CMGeneration generation,
+  CMContainerFlags containerFlags,
+  ...);
+
+}
